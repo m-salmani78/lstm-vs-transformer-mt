@@ -1,6 +1,6 @@
 # Machine Translation Evaluation with LSTM and Transformer Models
 
-This project evaluates machine translation models using LSTM and Transformer architectures. The models are trained and evaluated using BLEU and COMET metrics to compare their performance.
+This project evaluates machine translation models using LSTM and Transformer architectures. The models are trained and evaluated using BLEU and COMET metrics to compare their performance. We use the MIZAN dataset ([github](https://github.com/omidkashefi/Mizan), [paper](https://arxiv.org/abs/1801.02107)) to translation from English to Farsi.
 
 ## Table of Contents
 
@@ -228,17 +228,10 @@ model_path = download_model("wmt22-comet-da")
 model = load_from_checkpoint(model_path)
 
 # Evaluate LSTM model translations
-lstm_scores = model.predict(data_lstm, batch_size=8, gpus=1)
+lstm_scores = model.predict(data_lstm, batch_size=64, gpus=1)
 
 # Evaluate Transformer model translations
-transformer_scores = model.predict(data_transformer, batch_size=8, gpus=1)
-
-# Print COMET scores
-print("COMET scores for LSTM model translations:")
-print(lstm_scores)
-
-print("COMET scores for Transformer model translations:")
-print(transformer_scores)
+transformer_scores = model.predict(data_transformer, batch_size=64, gpus=1)
 ```
 
 ## Results
@@ -266,9 +259,30 @@ print(transformer_scores)
 |  LSTM       |    0.29    |    0.283    |
 | Transformer |    6.61    |    0.596    |
 
-The results indicate that the Transformer model significantly outperforms the LSTM model according to both BLEU and COMET scores. The COMET metric provides a more nuanced and human-aligned evaluation of the
+The results indicate that the Transformer model significantly outperforms the LSTM model according to both BLEU and COMET scores. The COMET metric provides a more nuanced and human-aligned evaluation of the translation quality compared to BLEU.
 
- translation quality compared to BLEU.
+### Sample Outputs
+
+#### LSTM Model:
+
+```text
+**Source:** The Dark Lord will rise again, Crouch!
+
+**Reference:** کراوچ، لرد سیاه دوباره قدرتمند می شه و برمی گرده!
+
+**Hypothesis:** خدا خدا خدا را می می به می!!!!!!!!!!!!!!!!
+```
+
+#### Transformer Model:
+
+```text
+**Source:** The Dark Lord will rise again, Crouch!
+
+**Reference:** کراوچ، لرد سیاه دوباره قدرتمند می شه و برمی گرده!
+
+**Hypothesis:** آقای کراوچ دوباره از جایش بلند می شه و دی گه نمی خواد دوباره به یاد.
+```
+
 
 ## Acknowledgements
 
